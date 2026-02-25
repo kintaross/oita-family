@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>さかいファミリー｜大分エンジョイ計画</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Shippori+Mincho:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --papa: #3B7DD8;
+    --mama: #E0527E;
+    --child1: #EF9B20;
+    --child2: #4CB849;
+    --child3: #9B6DD7;
+    --family: #FF7846;
+    --bg: #FAF6F0;
+    --bg-warm: #FFF8F0;
+    --card: #FFFFFF;
+    --text: #2C2418;
+    --text-sub: #8A7D6E;
+    --accent: #FF7846;
+    --border: #EDE5D8;
+    --year1: #4CB849;
+    --year2: #3B7DD8;
+    --year3: #E0527E;
+    --shadow-sm: 0 1px 4px rgba(44,36,24,0.06);
+    --shadow-md: 0 4px 16px rgba(44,36,24,0.08);
+    --shadow-lg: 0 8px 32px rgba(44,36,24,0.10);
+    --radius: 16px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Zen Maru Gothic', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ===== Hero ===== */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 24px;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(76,184,73,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 30%, rgba(59,125,216,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(255,120,70,0.06) 0%, transparent 50%),
+      var(--bg);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--year1), var(--year2), var(--year3), var(--accent));
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-sm);
+    animation: fadeDown 0.8s ease both;
+  }
+  .hero-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    animation: fadeDown 0.8s 0.15s ease both;
+  }
+  .hero-title em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent), var(--year3));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub {
+    font-size: clamp(0.85rem, 2.5vw, 1.05rem);
+    color: var(--text-sub);
+    max-width: 520px;
+    margin-bottom: 32px;
+    animation: fadeDown 0.8s 0.3s ease both;
+  }
+  .hero-family {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 40px;
+    animation: fadeDown 0.8s 0.45s ease both;
+  }
+  .hero-member {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .hero-avatar {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s;
+  }
+  .hero-avatar:hover { transform: scale(1.15) rotate(-5deg); }
+  .hero-member-name {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-sub);
+  }
+  .hero-scroll {
+    animation: fadeDown 0.8s 0.6s ease both;
+  }
+  .hero-scroll a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: gap 0.3s;
+  }
+  .hero-scroll a:hover { gap: 14px; }
+  .scroll-arrow {
+    display: inline-block;
+    animation: bounceDown 1.5s ease-in-out infinite;
+  }
+  @keyframes bounceDown {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== Nav ===== */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(250,246,240,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 16px;
+  }
+  .sticky-nav-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .sticky-nav-inner::-webkit-scrollbar { display: none; }
+  .nav-link {
+    padding: 12px 16px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--text-sub);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .nav-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ===== Section Common ===== */
+  .section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 64px 20px;
+  }
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: clamp(1.4rem, 4vw, 2rem);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .section-desc {
+    color: var(--text-sub);
+    font-size: 0.9rem;
+    margin-bottom: 32px;
+    max-width: 600px;
+  }
+
+  /* ===== Concept ===== */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .concept-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s;
+  }
+  .concept-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  .concept-icon { font-size: 2rem; margin-bottom: 12px; }
+  .concept-card h3 { font-size: 1rem; margin-bottom: 6px; }
+  .concept-card p { font-size: 0.82rem; color: var(--text-sub); line-height: 1.6; }
+
+  /* ===== 3-Year Roadmap ===== */
+  .roadmap-bg { background: linear-gradient(180deg, var(--bg) 0%, var(--bg-warm) 100%); }
+  .roadmap {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
+  }
+  .roadmap::-webkit-scrollbar { height: 6px; }
+  .roadmap::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .year-card {
+    flex: 0 0 300px;
+    scroll-snap-align: start;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .year-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+  .year-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+  .year-card.y1::before { background: var(--year1); }
+  .year-card.y2::before { background: var(--year2); }
+  .year-card.y3::before { background: var(--year3); }
+  .year-num { font-size: 0.7rem; font-weight: 900; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .y1 .year-num { color: var(--year1); }
+  .y2 .year-num { color: var(--year2); }
+  .y3 .year-num { color: var(--year3); }
+  .year-card h3 { font-family: 'Shippori Mincho', serif; font-size: 1.15rem; margin-bottom: 4px; }
+  .year-period { font-size: 0.75rem; color: var(--text-sub); margin-bottom: 12px; }
+  .year-card p { font-size: 0.82rem; color: var(--text-sub); line-height: 1.6; }
+  .year-keywords { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+  .year-kw {
+    font-size: 0.65rem; font-weight: 700;
+    padding: 3px 10px; border-radius: 100px; background: var(--bg);
+  }
+
+  /* ===== Monthly Timeline ===== */
+  .timeline { position: relative; padding-left: 32px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 11px; top: 0; bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .month-block { position: relative; margin-bottom: 16px; }
+  .month-dot {
+    position: absolute;
+    left: -32px; top: 6px;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; font-weight: 900; color: #fff;
+    z-index: 1;
+  }
+  .month-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .month-card:hover { box-shadow: var(--shadow-md); }
+  .month-header {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .month-header-left { display: flex; align-items: center; gap: 12px; }
+  .month-emoji { font-size: 1.5rem; }
+  .month-title-area h3 { font-size: 1rem; font-weight: 700; line-height: 1.3; }
+  .month-goal-badge {
+    font-size: 0.7rem; font-weight: 700;
+    padding: 2px 10px; border-radius: 100px;
+    background: var(--bg); color: var(--text-sub);
+  }
+  .month-expand-icon {
+    font-size: 1.2rem; color: var(--text-sub);
+    transition: transform 0.3s; flex-shrink: 0;
+  }
+  .month-card.expanded .month-expand-icon { transform: rotate(180deg); }
+  .month-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s;
+  }
+  .month-card.expanded .month-body { max-height: 800px; padding-top: 16px; }
+  .month-body-inner { border-top: 1px dashed var(--border); padding-top: 16px; }
+  .month-actions { list-style: none; }
+  .month-actions li {
+    padding: 6px 0; font-size: 0.85rem;
+    display: flex; align-items: flex-start; gap: 8px; line-height: 1.5;
+  }
+  .month-actions li::before {
+    content: '▸'; color: var(--accent); font-weight: 900; flex-shrink: 0; margin-top: 1px;
+  }
+  .month-note {
+    margin-top: 12px; padding: 12px 16px;
+    background: var(--bg-warm); border-radius: 10px;
+    font-size: 0.8rem; color: var(--text-sub);
+  }
+
+  /* ===== Calendar ===== */
+  .cal-section { background: var(--bg-warm); }
+  .cal-controls {
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px; margin-bottom: 20px;
+  }
+  .cal-btn {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 50%; width: 38px; height: 38px;
+    font-size: 1rem; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s; color: var(--text);
+  }
+  .cal-btn:hover { background: var(--accent); color: #fff; }
+  .cal-month-label {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.2rem; font-weight: 700;
+    min-width: 160px; text-align: center;
+  }
+  .cal-today-btn {
+    background: var(--accent); color: #fff; border: none;
+    border-radius: 100px; padding: 6px 16px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 0.75rem; font-weight: 700; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .cal-today-btn:hover { opacity: 0.85; }
+  .cal-legend {
+    display: flex; justify-content: center; flex-wrap: wrap;
+    gap: 6px 14px; margin-bottom: 16px;
+  }
+  .cal-legend-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 0.75rem; font-weight: 700;
+    cursor: pointer; padding: 3px 8px;
+    border-radius: 100px; transition: all 0.2s; user-select: none;
+  }
+  .cal-legend-item:hover { background: var(--card); }
+  .cal-legend-item.dimmed { opacity: 0.25; }
+  .cal-legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .cal-weekdays { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; margin-bottom: 2px; }
+  .cal-wd { text-align: center; font-size: 0.7rem; font-weight: 700; padding: 6px 0; color: var(--text-sub); }
+  .cal-wd.sun { color: var(--mama); }
+  .cal-wd.sat { color: var(--papa); }
+  .cal-days { display: grid; grid-template-columns: repeat(7,1fr); gap: 2px; }
+  .cal-day {
+    background: var(--card); min-height: 72px; padding: 3px;
+    border-radius: 6px; cursor: pointer; transition: all 0.15s; position: relative;
+  }
+  .cal-day:hover { box-shadow: var(--shadow-md); z-index: 2; }
+  .cal-day.other { opacity: 0.3; }
+  .cal-day.today { background: #FFF3D0; box-shadow: inset 0 0 0 2px var(--accent); }
+  .cal-day-num { font-size: 0.7rem; font-weight: 700; padding: 1px 4px; line-height: 1.2; }
+  .cal-day.sun .cal-day-num { color: var(--mama); }
+  .cal-day.sat .cal-day-num { color: var(--papa); }
+  .cal-ev {
+    font-size: 0.55rem; font-weight: 600; padding: 1px 4px; margin: 1px 0;
+    border-radius: 3px; color: #fff; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; line-height: 1.4;
+  }
+  .cal-ev.papa { background: var(--papa); }
+  .cal-ev.mama { background: var(--mama); }
+  .cal-ev.child1 { background: var(--child1); }
+  .cal-ev.child2 { background: var(--child2); }
+  .cal-ev.child3 { background: var(--child3); }
+  .cal-ev.family { background: var(--family); }
+  .cal-ev.hidden { display: none; }
+  .cal-more { font-size: 0.55rem; color: var(--text-sub); text-align: center; font-weight: 700; }
+
+  /* ===== Modal ===== */
+  .modal-bg {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.3); z-index: 200;
+    justify-content: center; align-items: center;
+    padding: 16px; backdrop-filter: blur(4px);
+  }
+  .modal-bg.open { display: flex; }
+  .modal-box {
+    background: var(--card); border-radius: var(--radius);
+    padding: 28px; max-width: 420px; width: 100%;
+    box-shadow: var(--shadow-lg); animation: slideUp 0.3s ease;
+    max-height: 80vh; overflow-y: auto;
+  }
+  @keyframes slideUp { from { transform: translateY(16px); opacity: 0; } }
+  .modal-date-title {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1.15rem; font-weight: 700; margin-bottom: 16px;
+    padding-bottom: 12px; border-bottom: 2px dashed var(--border);
+  }
+  .modal-ev-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 10px 0; border-bottom: 1px solid var(--border);
+  }
+  .modal-ev-item:last-of-type { border-bottom: none; }
+  .modal-ev-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .modal-ev-member { font-size: 0.7rem; font-weight: 700; color: var(--text-sub); }
+  .modal-ev-name { font-size: 0.95rem; font-weight: 700; }
+  .modal-ev-time { font-size: 0.75rem; color: var(--text-sub); }
+  .modal-empty { text-align: center; color: var(--text-sub); padding: 20px 0; }
+  .modal-close-btn {
+    display: block; margin: 20px auto 0;
+    background: var(--accent); color: #fff; border: none;
+    border-radius: 100px; padding: 8px 32px;
+    font-family: 'Zen Maru Gothic', sans-serif;
+    font-size: 0.85rem; font-weight: 700; cursor: pointer;
+  }
+
+  /* ===== Upcoming ===== */
+  .upcoming-wrap { margin-top: 24px; max-width: 600px; }
+  .upcoming-wrap h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 10px; }
+  .upcoming-list { display: flex; flex-direction: column; gap: 8px; }
+  .upcoming-item {
+    display: flex; align-items: center; gap: 14px;
+    background: var(--card); padding: 14px 18px;
+    border-radius: 12px; box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border); transition: all 0.2s;
+  }
+  .upcoming-item:hover { transform: translateX(4px); box-shadow: var(--shadow-md); }
+  .up-date { text-align: center; min-width: 44px; }
+  .up-date-day { font-size: 1.3rem; font-weight: 900; line-height: 1; }
+  .up-date-wd { font-size: 0.6rem; font-weight: 700; color: var(--text-sub); }
+  .up-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .up-info { flex: 1; }
+  .up-title { font-size: 0.88rem; font-weight: 700; }
+  .up-member { font-size: 0.7rem; color: var(--text-sub); }
+
+  /* ===== Footer ===== */
+  .footer {
+    text-align: center; padding: 32px 20px;
+    font-size: 0.7rem; color: var(--text-sub);
+    border-top: 1px solid var(--border);
+  }
+  .footer-quote {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 0.9rem; margin-bottom: 8px;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 640px) {
+    .section { padding: 40px 16px; }
+    .year-card { flex: 0 0 260px; }
+    .cal-day { min-height: 56px; }
+    .cal-day-num { font-size: 0.6rem; }
+    .cal-ev { font-size: 0.5rem; }
+    .timeline { padding-left: 28px; }
+    .nav-link { padding: 10px 12px; font-size: 0.72rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-badge">🏠 2026.5 → 2029.4</div>
+  <h1 class="hero-title">さかいファミリー<br><em>大分エンジョイ計画</em></h1>
+  <p class="hero-sub">自然・学び・記憶を最大化する3年間の行動設計書。<br>家族5人で大分を、後悔なく回収する。</p>
+  <div class="hero-family">
+    <div class="hero-member"><div class="hero-avatar" style="background:var(--papa)">👨</div><span class="hero-member-name">パパ</span></div>
+    <div class="hero-member"><div class="hero-avatar" style="background:var(--mama)">👩</div><span class="hero-member-name">ママ</span></div>
+    <div class="hero-member"><div class="hero-avatar" style="background:var(--child1)">👦</div><span class="hero-member-name">長男</span></div>
+    <div class="hero-member"><div class="hero-avatar" style="background:var(--child2)">👧</div><span class="hero-member-name">長女</span></div>
+    <div class="hero-member"><div class="hero-avatar" style="background:var(--child3)">👶</div><span class="hero-member-name">次男</span></div>
+  </div>
+  <div class="hero-scroll"><a href="#concept">計画をみる <span class="scroll-arrow">↓</span></a></div>
+</section>
+
+<!-- ===== STICKY NAV ===== -->
+<nav class="sticky-nav">
+  <div class="sticky-nav-inner">
+    <a class="nav-link" href="#concept">コンセプト</a>
+    <a class="nav-link" href="#roadmap">3年ロードマップ</a>
+    <a class="nav-link" href="#monthly">月次プラン</a>
+    <a class="nav-link" href="#calendar">カレンダー</a>
+  </div>
+</nav>
+
+<!-- ===== CONCEPT ===== -->
+<section class="section" id="concept">
+  <div class="section-label">◆ CONCEPT</div>
+  <h2 class="section-title">この計画について</h2>
+  <p class="section-desc">観光ガイドではなく、住んだ3年間を後悔なく回収するための実行ドキュメント。</p>
+  <div class="concept-grid">
+    <div class="concept-card">
+      <div class="concept-icon">🌿</div>
+      <h3>自然を全身で浴びる</h3>
+      <p>別府・久住・阿蘇の温泉と山。海と川での釣り・サーフィン。四季ごとに体験を切り替え、子どもの五感を刺激する。</p>
+    </div>
+    <div class="concept-card">
+      <div class="concept-icon">📚</div>
+      <h3>学びを家族で回す</h3>
+      <p>体験→振り返り→記録のサイクル。昆虫採集も釣りも、図鑑とセットで記憶に定着させる。</p>
+    </div>
+    <div class="concept-card">
+      <div class="concept-icon">📸</div>
+      <h3>記憶を形に残す</h3>
+      <p>FUJIFILM X-T5 と DJI Mavic 4 Pro で撮る。月1のアルバム更新、年1のフォトブック制作で「忘れない仕組み」を回す。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 3-YEAR ROADMAP ===== -->
+<section class="roadmap-bg">
+  <div class="section" id="roadmap">
+    <div class="section-label">◆ ROADMAP</div>
+    <h2 class="section-title">3年間のロードマップ</h2>
+    <p class="section-desc">1年目は探索、2年目で深化、3年目に完成。段階的に大分を自分たちのものにする。</p>
+    <div class="roadmap">
+      <div class="year-card y1">
+        <div class="year-num">YEAR 1</div>
+        <h3>探索と基盤づくり</h3>
+        <div class="year-period">2026年5月 → 2027年4月</div>
+        <p>まずは何もしないことから始める。生活圏を把握し、安全を確認し、小さな成功体験を積む。土地と家族のリズムを合わせる1年。</p>
+        <div class="year-keywords">
+          <span class="year-kw">🏠 定着</span><span class="year-kw">🔍 下見</span>
+          <span class="year-kw">🎣 釣り入門</span><span class="year-kw">♨️ 温泉巡り</span>
+        </div>
+      </div>
+      <div class="year-card y2">
+        <div class="year-num">YEAR 2</div>
+        <h3>深化</h3>
+        <div class="year-period">2027年5月 → 2028年4月</div>
+        <p>1年目の経験を土台に、活動を本格化。定番スポットを持ち、季節の行事を家族ルーティンに組み込む。</p>
+        <div class="year-keywords">
+          <span class="year-kw">⛺ キャンプ定番化</span><span class="year-kw">🏄 サーフィン</span>
+          <span class="year-kw">🍲 郷土料理</span><span class="year-kw">📖 学び深化</span>
+        </div>
+      </div>
+      <div class="year-card y3">
+        <div class="year-num">YEAR 3</div>
+        <h3>完成</h3>
+        <div class="year-period">2028年5月 → 2029年4月</div>
+        <p>「大分を知り尽くした」と言い切れる最終年。やり残しゼロを目指し、記録を完成形にまとめる。</p>
+        <div class="year-keywords">
+          <span class="year-kw">🗻 くじゅう縦走</span><span class="year-kw">📸 フォトブック</span>
+          <span class="year-kw">🎓 卒業旅行</span><span class="year-kw">✅ やり残しゼロ</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== MONTHLY PLAN ===== -->
+<section class="section" id="monthly">
+  <div class="section-label">◆ MONTHLY</div>
+  <h2 class="section-title">月次プラン（1年目）</h2>
+  <p class="section-desc">各月にテーマとゴールを設定。無理せず、段階的に。</p>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<!-- ===== CALENDAR ===== -->
+<section class="cal-section" id="calendar">
+  <div class="section">
+    <div class="section-label">◆ CALENDAR</div>
+    <h2 class="section-title">家族カレンダー</h2>
+    <p class="section-desc">日付をタップして予定を確認。凡例クリックでフィルタ。</p>
+    <div class="cal-legend" id="calLegend"></div>
+    <div class="cal-controls">
+      <button class="cal-btn" onclick="calNav(-1)">◀</button>
+      <div class="cal-month-label" id="calLabel"></div>
+      <button class="cal-btn" onclick="calNav(1)">▶</button>
+      <button class="cal-today-btn" onclick="calToday()">きょう</button>
+    </div>
+    <div class="cal-weekdays">
+      <div class="cal-wd sun">日</div><div class="cal-wd">月</div><div class="cal-wd">火</div>
+      <div class="cal-wd">水</div><div class="cal-wd">木</div><div class="cal-wd">金</div><div class="cal-wd sat">土</div>
+    </div>
+    <div class="cal-days" id="calDays"></div>
+    <div class="upcoming-wrap" id="upWrap"></div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="footer-quote">「住んだ3年間を、後悔なく回収する。」</div>
+  <div>🏠 さかいファミリー 大分エンジョイ計画 © 2026</div>
+</footer>
+
+<!-- ===== MODAL ===== -->
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+  <div class="modal-box" id="modalBox">
+    <div class="modal-date-title" id="mDate"></div>
+    <div id="mEvents"></div>
+    <button class="modal-close-btn" onclick="closeModal()">とじる</button>
+  </div>
+</div>
+
+<script>
+// ============================================================
+//  MEMBERS
+// ============================================================
+const MEMBERS = {
+  papa:   { name:'パパ',   icon:'👨', color:'#3B7DD8' },
+  mama:   { name:'ママ',   icon:'👩', color:'#E0527E' },
+  child1: { name:'長男',   icon:'👦', color:'#EF9B20' },
+  child2: { name:'長女',   icon:'👧', color:'#4CB849' },
+  child3: { name:'次男',   icon:'👶', color:'#9B6DD7' },
+  family: { name:'みんな', icon:'👨‍👩‍👧‍👦', color:'#FF7846' },
+};
+
+// ============================================================
+//  MONTHLY DATA (1年目: 2026.5 - 2027.4)
+// ============================================================
+const MONTHLY = [
+  { m:5,  emoji:'🏠', title:'5月｜定着期（引っ越し月）', goal:'何もしないこと',
+    actions:['生活圏把握（スーパー・病院・公園マップ作成）','短時間散歩で近所を探索','学校・幼稚園への挨拶回り'],
+    note:'焦らない。まず「住む」ことに慣れる。' },
+  { m:6,  emoji:'🔍', title:'6月｜仕込み', goal:'安全確認',
+    actions:['夏の活動候補地の下見（海・川・山）','危険箇所の把握（子どもの安全最優先）','釣りポイント・キャンプ場の情報収集'],
+    note:'梅雨を活かして室内で計画を詰める。' },
+  { m:7,  emoji:'🎣', title:'7月｜実行開始', goal:'成功体験',
+    actions:['家族で初釣り','昆虫採集（カブトムシ・クワガタ）','近場の海で水遊び'],
+    note:'子どもに「大分すごい！」と言わせる体験を。' },
+  { m:8,  emoji:'🌊', title:'8月｜ピーク', goal:'夏の最大成果',
+    actions:['キャンプ（久住高原 or 阿蘇）','海釣り本番','花火大会・夏祭り','家族写真撮影会（ドローン空撮）'],
+    note:'1年目の最大イベント月。全力投球。' },
+  { m:9,  emoji:'📝', title:'9月｜整理', goal:'振り返り',
+    actions:['夏の写真整理・アルバム作成','体験の振り返り家族会議','秋の活動計画策定'],
+    note:'走りっぱなしにしない。記録して次へ繋ぐ。' },
+  { m:10, emoji:'⛰️', title:'10月｜山と温泉', goal:'体調回復',
+    actions:['くじゅう連山ハイキング（初級コース）','別府温泉巡り本格スタート','秋の味覚狩り（みかん・栗）'],
+    note:'涼しくなった秋に、温泉と山を満喫。' },
+  { m:11, emoji:'🍲', title:'11月｜食文化', goal:'家庭再現',
+    actions:['大分郷土料理を家族で作る（だんご汁・とり天）','地元の食材マーケット巡り','紅葉ドライブ（耶馬渓・深耶馬渓）'],
+    note:'「この味は大分で覚えた」を家族の財産に。' },
+  { m:12, emoji:'📸', title:'12月｜記録', goal:'形に残す',
+    actions:['1年目前半のフォトブック制作','年末家族旅行（県内 or 近県）','来年の計画ドラフト作成'],
+    note:'記録しないと消える。12月は「残す」月。' },
+  { m:1,  emoji:'🛌', title:'1月｜休養', goal:'休む',
+    actions:['年始はゆっくり過ごす','子どもの冬休み宿題サポート','室内遊び充実（ボードゲーム・料理）'],
+    note:'無理しない月。充電期間。' },
+  { m:2,  emoji:'🗺️', title:'2月｜準備', goal:'次年準備',
+    actions:['2年目の年間計画策定','やり残しリストの洗い出し','春の行動計画（花見・新学期）'],
+    note:'2年目を最高にするための仕込み。' },
+  { m:3,  emoji:'🌸', title:'3月｜助走', goal:'成長確認',
+    actions:['1年間の振り返り家族会議','子どもの成長記録まとめ','お花見・春の大分を満喫'],
+    note:'「1年で自分たちはこれだけやった」を確認。' },
+  { m:4,  emoji:'🎯', title:'4月｜総まとめ', goal:'完了',
+    actions:['1年目フォトブック完成','2年目キックオフ家族会議','新学期準備'],
+    note:'1年目完了。やりきった実感を家族で共有。' },
+];
+
+// ============================================================
+//  EVENTS (edit here to update calendar)
+// ============================================================
+const EVENTS = [
+  // 2026年5月
+  { date:'2026-05-16', member:'family', title:'大分へ引っ越し 🚚', time:'終日' },
+  { date:'2026-05-17', member:'family', title:'荷ほどき・セットアップ', time:'終日' },
+  { date:'2026-05-18', member:'family', title:'近所を散歩 🚶', time:'午前' },
+  { date:'2026-05-19', member:'child1', title:'転入手続き（小学校）', time:'10:00' },
+  { date:'2026-05-19', member:'child2', title:'転入手続き（小学校）', time:'10:00' },
+  { date:'2026-05-19', member:'child3', title:'転入手続き（幼稚園）', time:'14:00' },
+  { date:'2026-05-24', member:'family', title:'生活圏マップ作成 🗺️', time:'午後' },
+  { date:'2026-05-25', member:'family', title:'近くの公園探検', time:'10:00' },
+  { date:'2026-05-31', member:'papa', title:'スーパー・病院リスト完成', time:'' },
+  // 2026年6月
+  { date:'2026-06-07', member:'papa', title:'釣りポイント下見 🎣', time:'6:00' },
+  { date:'2026-06-08', member:'family', title:'別府温泉お試し ♨️', time:'10:00' },
+  { date:'2026-06-14', member:'papa', title:'キャンプ場下見（久住）', time:'午前' },
+  { date:'2026-06-15', member:'mama', title:'食材マーケット調査', time:'午後' },
+  { date:'2026-06-21', member:'family', title:'海の安全確認', time:'10:00' },
+  { date:'2026-06-28', member:'family', title:'夏の計画会議 📋', time:'午後' },
+  // 2026年7月
+  { date:'2026-07-04', member:'family', title:'家族で初釣り！🎣', time:'7:00' },
+  { date:'2026-07-11', member:'child1', title:'昆虫採集 🪲', time:'午前' },
+  { date:'2026-07-12', member:'family', title:'海で水遊び 🏖️', time:'10:00' },
+  { date:'2026-07-19', member:'papa', title:'サーフィン練習 🏄', time:'7:00' },
+  { date:'2026-07-20', member:'family', title:'うみたまご水族館 🐬', time:'10:00' },
+  { date:'2026-07-26', member:'family', title:'夏祭り 🎆', time:'16:00' },
+  // 2026年8月
+  { date:'2026-08-01', member:'family', title:'キャンプ⛺ 久住高原', time:'終日' },
+  { date:'2026-08-02', member:'family', title:'キャンプ⛺ 久住高原', time:'終日' },
+  { date:'2026-08-08', member:'papa', title:'海釣り本番 🐟', time:'5:00' },
+  { date:'2026-08-09', member:'family', title:'花火大会 🎇', time:'18:00' },
+  { date:'2026-08-15', member:'family', title:'ドローン空撮📸', time:'午前' },
+  { date:'2026-08-16', member:'family', title:'阿蘇ドライブ 🚗', time:'終日' },
+  { date:'2026-08-22', member:'child1', title:'自由研究まとめ', time:'午後' },
+  { date:'2026-08-23', member:'family', title:'BBQ大会 🍖', time:'11:00' },
+  { date:'2026-08-30', member:'family', title:'夏の振り返り会議', time:'午後' },
+];
+
+// ============================================================
+//  RENDER: Timeline
+// ============================================================
+function renderTimeline() {
+  document.getElementById('timeline').innerHTML = MONTHLY.map((m, i) => `
+    <div class="month-block">
+      <div class="month-dot" style="background:var(--year1)">${m.m}</div>
+      <div class="month-card" onclick="this.classList.toggle('expanded')">
+        <div class="month-header">
+          <div class="month-header-left">
+            <div class="month-emoji">${m.emoji}</div>
+            <div class="month-title-area">
+              <h3>${m.title}</h3>
+              <span class="month-goal-badge">🎯 ${m.goal}</span>
+            </div>
+          </div>
+          <div class="month-expand-icon">▾</div>
+        </div>
+        <div class="month-body"><div class="month-body-inner">
+          <ul class="month-actions">${m.actions.map(a=>`<li>${a}</li>`).join('')}</ul>
+          ${m.note?`<div class="month-note">💡 ${m.note}</div>`:''}
+        </div></div>
+      </div>
+    </div>`).join('');
+}
+
+// ============================================================
+//  RENDER: Calendar
+// ============================================================
+let calYear, calMonth, hiddenM = new Set();
+
+function initCal() {
+  const d = new Date();
+  if (d < new Date(2026,4,1)) { calYear=2026; calMonth=4; }
+  else { calYear=d.getFullYear(); calMonth=d.getMonth(); }
+}
+
+function renderLegend() {
+  document.getElementById('calLegend').innerHTML = Object.entries(MEMBERS).map(([k,m])=>`
+    <div class="cal-legend-item${hiddenM.has(k)?' dimmed':''}" onclick="toggleM('${k}')">
+      <span class="cal-legend-dot" style="background:${m.color}"></span>${m.icon} ${m.name}
+    </div>`).join('');
+}
+function toggleM(k) { hiddenM.has(k)?hiddenM.delete(k):hiddenM.add(k); renderLegend(); renderCal(); renderUpcoming(); }
+
+function renderCal() {
+  document.getElementById('calLabel').textContent = `${calYear}年 ${calMonth+1}月`;
+  const first=new Date(calYear,calMonth,1).getDay(), last=new Date(calYear,calMonth+1,0).getDate();
+  const prevLast=new Date(calYear,calMonth,0).getDate(), today=new Date();
+  const c=document.getElementById('calDays'); c.innerHTML='';
+  for(let i=first-1;i>=0;i--) mkDay(c,prevLast-i,fmtD(calYear,calMonth-1,prevLast-i),true,false);
+  for(let d=1;d<=last;d++){
+    const ds=fmtD(calYear,calMonth,d);
+    const isT=today.getFullYear()===calYear&&today.getMonth()===calMonth&&today.getDate()===d;
+    const dow=new Date(calYear,calMonth,d).getDay();
+    mkDay(c,d,ds,false,isT,dow);
+  }
+  const rem=(7-c.children.length%7)%7;
+  for(let d=1;d<=rem;d++) mkDay(c,d,fmtD(calYear,calMonth+1,d),true,false);
+}
+
+function mkDay(c,num,ds,other,isT,dow){
+  const el=document.createElement('div');
+  let cls='cal-day';
+  if(other)cls+=' other'; if(isT)cls+=' today';
+  if(dow===0)cls+=' sun'; if(dow===6)cls+=' sat';
+  el.className=cls;
+  el.innerHTML=`<div class="cal-day-num">${num}</div>`;
+  const evs=EVENTS.filter(e=>e.date===ds);
+  evs.slice(0,3).forEach(ev=>{
+    const d=document.createElement('div');
+    d.className=`cal-ev ${ev.member}${hiddenM.has(ev.member)?' hidden':''}`;
+    d.textContent=ev.title; el.appendChild(d);
+  });
+  if(evs.length>3){ const m=document.createElement('div');m.className='cal-more';m.textContent=`+${evs.length-3}`;el.appendChild(m); }
+  el.onclick=()=>openModal(ds);
+  c.appendChild(el);
+}
+
+function calNav(d){ calMonth+=d; if(calMonth>11){calMonth=0;calYear++;}if(calMonth<0){calMonth=11;calYear--;}renderCal(); }
+function calToday(){ const d=new Date();calYear=d.getFullYear();calMonth=d.getMonth();renderCal(); }
+
+// ============================================================
+//  Modal
+// ============================================================
+function openModal(ds){
+  const d=new Date(ds+'T00:00:00'), wd=['日','月','火','水','木','金','土'];
+  document.getElementById('mDate').textContent=`${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日（${wd[d.getDay()]}）`;
+  const evs=EVENTS.filter(e=>e.date===ds&&!hiddenM.has(e.member));
+  const ec=document.getElementById('mEvents');
+  if(!evs.length){ec.innerHTML='<div class="modal-empty">🌈 予定はありません</div>';}
+  else{ec.innerHTML=evs.map(ev=>{const m=MEMBERS[ev.member]||{};
+    return `<div class="modal-ev-item"><div class="modal-ev-dot" style="background:${m.color||'var(--accent)'}"></div><div>
+    <div class="modal-ev-member">${m.icon||''} ${m.name||''}</div>
+    <div class="modal-ev-name">${ev.title}</div>
+    ${ev.time?`<div class="modal-ev-time">🕐 ${ev.time}</div>`:''}</div></div>`;}).join('');}
+  document.getElementById('modalBg').classList.add('open');
+}
+function closeModal(e){if(!e||e.target.id==='modalBg'||e.target.classList.contains('modal-close-btn'))document.getElementById('modalBg').classList.remove('open');}
+
+// ============================================================
+//  Upcoming
+// ============================================================
+function renderUpcoming(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const wd=['日','月','火','水','木','金','土'];
+  const items=EVENTS.filter(e=>new Date(e.date+'T00:00:00')>=today&&!hiddenM.has(e.member))
+    .sort((a,b)=>a.date.localeCompare(b.date)).slice(0,6);
+  const el=document.getElementById('upWrap');
+  if(!items.length){el.innerHTML='';return;}
+  el.innerHTML=`<h3>📋 これからの予定</h3><div class="upcoming-list">${items.map(ev=>{
+    const d=new Date(ev.date+'T00:00:00'),m=MEMBERS[ev.member]||{};
+    return `<div class="upcoming-item">
+      <div class="up-date"><div class="up-date-day">${d.getDate()}</div><div class="up-date-wd">${d.getMonth()+1}月・${wd[d.getDay()]}</div></div>
+      <div class="up-dot" style="background:${m.color||'var(--accent)'}"></div>
+      <div class="up-info"><div class="up-title">${ev.title}</div><div class="up-member">${m.icon||''} ${m.name||''} ${ev.time?'・'+ev.time:''}</div></div>
+    </div>`;}).join('')}</div>`;
+}
+
+// ============================================================
+//  Utils & Init
+// ============================================================
+function fmtD(y,m,d){const dt=new Date(y,m,d);return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;}
+
+renderTimeline();
+initCal();
+renderLegend();
+renderCal();
+renderUpcoming();
+</script>
+</body>
+</html>
